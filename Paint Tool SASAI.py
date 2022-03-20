@@ -1,5 +1,5 @@
 from tkinter import *
-# from PIL import Image, ImageTk
+from PIL import Image, ImageTk
 from tkinter.colorchooser import askcolor
 
 
@@ -82,18 +82,23 @@ menu_bar.add_command(label='Reset', command=clear)
 
 # working panes
 toolbarPane = Frame(window)
+imagePane = Frame(toolbarPane)
 brushPane = Frame(toolbarPane)
 canvasPane = Frame(window, relief=RAISED, bd=3, cursor='cross')
 toolbarPane.pack(side=LEFT)
+imagePane.pack()
 brushPane.pack()
 canvasPane.pack()
+
+
+img = ImageTk.PhotoImage(Image.open("C:/Users/1/Desktop/картинки/стикеры в телегу/Снимок.PNG"))
+just_pic = Label(imagePane, image=img)
+just_pic.pack(side=TOP)
+
 
 # canvas
 cnv = Canvas(canvasPane, width=500, height=500)
 cnv.pack()
-
-# img = ImageTk.PhotoImage(Image.open("C:/Users/1/Desktop/картинки/kuyfjf.jpg"))
-# just_pic = Label(toolbarPane, image=img)
 
 # brush buttons
 brushes_lbl = Label(brushPane, text='Brushes', width=15)
@@ -115,6 +120,7 @@ width_lbl = Label(toolbarPane, text='Width', width=15)
 width_scl = Scale(toolbarPane, from_=0, to=100, width=15, orient=HORIZONTAL)
 
 # packpackpack
+just_pic.pack()
 brushes_lbl.pack()
 rec_brush_btn.pack(side=LEFT)
 oval_brush_button.pack(side=LEFT)
