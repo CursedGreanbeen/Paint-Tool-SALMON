@@ -11,11 +11,6 @@ def choose_color():
 def file():
     pass
 
-def clear():
-    global cnv
-    cnv.delete('all')
-
-
 # brush settings
 def choose_recBrush():
     global brushape, shape
@@ -51,9 +46,9 @@ def choose_oval():
     global shape, brushape
     shape, brushape = 'O', ''
 
-def choose_polygon():
+def choose_line():
     global shape, brushape
-    shape, brushape = 'P', ''
+    shape, brushape = 'L', ''
 
 def draw_shape(event):
     global shape
@@ -65,20 +60,16 @@ def draw_shape(event):
         cnv.create_rectangle(xy, fill=color[1], outline=color[1])
     elif shape == 'O':
         cnv.create_oval(xy, fill=color[1], outline=color[1])
-    elif shape == 'P':
-        cnv.create_polygon(xy, fill=color[1], outline=color[1])
+    elif shape == 'L':
+        cnv.create_line(xy, fill=color[1])
 
+color = (0, 'Black')
+brushape, shape = 'O', ''
 
 # window
 window = Tk()
 window.geometry('600x500')
 window.title('Paint Tool SASAI')
-
-# menu
-menu_bar = Menu(window)
-window.config(menu=menu_bar)
-menu_bar.add_command(label='File', command=file)
-menu_bar.add_command(label='Reset', command=clear)
 
 # working panes
 toolbarPane = Frame(window)
@@ -91,26 +82,34 @@ brushPane.pack()
 canvasPane.pack()
 
 
-img = ImageTk.PhotoImage(Image.open("C:/Users/1/Desktop/картинки/стикеры в телегу/Снимок.PNG"))
-just_pic = Label(imagePane, image=img)
+# just a pic
+gogol = ImageTk.PhotoImage(Image.open("C:/Users/1/Desktop/картинки/стикеры в телегу/Снимок.PNG"))
+just_pic = Label(imagePane, image=gogol)
 just_pic.pack(side=TOP)
 
 
 # canvas
-cnv = Canvas(canvasPane, width=500, height=500)
+w = 'white'
+cnv = Canvas(canvasPane, width=500, height=500, bg=w)
 cnv.pack()
+
+# menu
+menu_bar = Menu(window)
+window.config(menu=menu_bar)
+menu_bar.add_command(label='File', command=file)
+menu_bar.add_command(label='Reset', command=lambda : cnv.delete('all'))
 
 # brush buttons
 brushes_lbl = Label(brushPane, text='Brushes', width=15)
 rec_brush_btn = Button(brushPane, text='☐', width=4, command=choose_recBrush)
 oval_brush_button = Button(brushPane, text='〇', width=4, command=choose_ovalBrush)
-poly_brush_btn = Button(brushPane, text='△', width=4, command=choose_polyBrush)
+poly_brush_btn = Button(brushPane, text='///', width=4, command=choose_polyBrush)
 
 # shape buttons
 shapes_lbl = Label(toolbarPane, text='\nShapes', width=15)
 rec_btn = Button(toolbarPane, text='Rectangle', width=15, command=choose_rectangle)
 oval_btn = Button(toolbarPane, text='Oval', width=15, command=choose_oval)
-line_btn = Button(toolbarPane, text='Polygon', width=15, command=choose_polygon)
+line_btn = Button(toolbarPane, text='Line', width=15, command=choose_line)
 
 # tool buttons
 col_btn = Button(toolbarPane, text='Color', width=15, command=choose_color)
@@ -136,9 +135,6 @@ height_lbl.pack()
 height_scl.pack()
 width_lbl.pack()
 width_scl.pack()
-
-color = (0, 'Black')
-brushape, shape = 'O', ''
 
 cnv.bind('<B1-Motion>', brush)
 cnv.bind('<Button-1>', draw_shape)
