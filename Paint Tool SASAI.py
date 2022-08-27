@@ -4,8 +4,9 @@ from tkinter.colorchooser import askcolor
 
 
 def choose_color():
-    global color
-    color = askcolor('Red')
+    global color, act_color
+    act_color = askcolor('Red')
+    color = act_color
 
 # menu functions
 def file():
@@ -48,22 +49,29 @@ def input_text():
     root.mainloop()
 
 
+# no idea
 def get_color():
-    pass
+    global brushape, shape, canvasPane
+    brushape, shape = '', ''
+    canvasPane.config(cursor='dotbox')
+
 
 # brush settings
 def choose_recBrush():
-    global brushape, shape, canvasPane
+    global brushape, shape, canvasPane, color, act_color
+    color = act_color
     brushape, shape = 'R', ''
     canvasPane.config(cursor='cross')
 
 def choose_ovalBrush():
-    global brushape, shape, canvasPane
+    global brushape, shape, canvasPane, color, act_color
+    color = act_color
     brushape, shape = 'O', ''
     canvasPane.config(cursor='cross')
 
 def choose_polyBrush():
-    global brushape, shape, canvasPane
+    global brushape, shape, canvasPane, color, act_color
+    color = act_color
     brushape, shape = 'P', ''
     canvasPane.config(cursor='cross')
 
@@ -82,15 +90,18 @@ def brush(event):
 
 # shape settings
 def choose_rectangle():
-    global shape, brushape
+    global shape, brushape, color, act_color
+    color = act_color
     shape, brushape = 'R', ''
 
 def choose_oval():
-    global shape, brushape
+    global shape, brushape, color, act_color
+    color = act_color
     shape, brushape = 'O', ''
 
 def choose_line():
-    global shape, brushape
+    global shape, brushape, color, act_color
+    color = act_color
     shape, brushape = 'L', ''
 
 def draw_shape(event):
@@ -106,7 +117,7 @@ def draw_shape(event):
     elif shape == 'L':
         cnv.create_line(xy, fill=color[1])
 
-color, bg_color = (0, 'Black'), (0, 'White')
+color, act_color, bg_color = (0, 'Black'), (0, 'Black'), (0, 'White')
 brushape, shape = 'O', ''
 
 # window
