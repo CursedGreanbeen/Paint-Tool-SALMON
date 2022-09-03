@@ -1,28 +1,27 @@
 from tkinter import *
 
 
-def draw_oval(event):
-    cnv.create_oval(event.x - 5,
-                    event.y - 5,
-                    event.x + 5,
-                    event.y + 5,
-                    fill='black',
-                    outline='black')
+def draw(event):
+    global brushape
+    r = 5
+    xy = event.x - r, event.y - r, event.x + r, event.y + r
 
-def draw_rec(event):
-    cnv.create_rectangle(event.x - 5,
-                         event.y - 5,
-                         event.x + 5,
-                         event.y + 5,
-                         fill='black',
-                         outline='black')
+    if brushape == 'R':
+        cnv.create_rectangle(xy, fill='black', outline='black')
+    elif brushape == 'O':
+        cnv.create_oval(xy, fill='black', outline='black')
+    elif brushape == 'L':
+        cnv.create_line(xy, fill='black')
+
 
 window = Tk()
 window.geometry('400x500')
-cnv = Canvas(window)
 
+cnv = Canvas(window)
 cnv.pack(fill=BOTH, expand=1)
-cnv.bind('<B1-Motion>', draw_oval)
+cnv.bind('<B1-Motion>', draw)
+
+brushape = 'O'
 
 
 class BrushButton(Button):
@@ -30,8 +29,19 @@ class BrushButton(Button):
     width = 5
 
 
-BrushButton(text='o', command=draw_oval).pack()
-BrushButton(text='п', command=draw_rec).pack()
+class Brush:
+    def __init__(self, shape):
+        self.shape = shape
+
+    def change_shape(self):
+        global brushape, cnv
+        cnv.config(cursor='cross')
+        brushape = self.shape
+
+
+BrushButton(text='o', command=Brush('O').change_shape).pack()
+BrushButton(text='п', command=Brush('R').change_shape).pack()
+BrushButton(text='///', command=Brush('L').change_shape).pack()
 
 window.mainloop()
 
